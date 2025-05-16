@@ -1,0 +1,60 @@
+@page
+@model TaskManagement.Pages.Account.LoginModel
+@{
+    ViewData["Title"] = "Login";
+}
+
+<div class="auth-container">
+    <div class="auth-card">
+        <div class="auth-header">
+            <h2 class="text-center mb-4"><i class="bi bi-box-arrow-in-right me-2"></i>Sign In</h2>
+        </div>
+
+        <form method="post">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            
+            @if (!string.IsNullOrEmpty(Model.ErrorMessage))
+            {
+                <div class="alert alert-danger">
+                    <i class="bi bi-exclamation-triangle-fill me-2"></i>
+                    @Model.ErrorMessage
+                </div>
+            }
+            
+            <div class="form-floating mb-3">
+                <input asp-for="LoginInput.UsernameOrEmail" class="form-control" placeholder="Username or Email" />
+                <label asp-for="LoginInput.UsernameOrEmail">
+                    <i class="bi bi-person-fill me-1"></i>Username or Email
+                </label>
+                <span asp-validation-for="LoginInput.UsernameOrEmail" class="text-danger"></span>
+            </div>
+            
+            <div class="form-floating mb-3">
+                <input asp-for="LoginInput.Password" class="form-control" placeholder="Password" />
+                <label asp-for="LoginInput.Password">
+                    <i class="bi bi-lock-fill me-1"></i>Password
+                </label>
+                <span asp-validation-for="LoginInput.Password" class="text-danger"></span>
+            </div>
+            
+            <div class="form-check mb-4">
+                <input asp-for="LoginInput.RememberMe" class="form-check-input" />
+                <label asp-for="LoginInput.RememberMe" class="form-check-label">Remember me</label>
+            </div>
+            
+            <div class="d-grid gap-2 mb-3">
+                <button type="submit" class="btn btn-primary btn-lg">
+                    <i class="bi bi-box-arrow-in-right me-2"></i>Sign In
+                </button>
+            </div>
+            
+            <div class="text-center mt-4">
+                <p>Don't have an account? <a asp-page="/Account/Register">Register</a></p>
+            </div>
+        </form>
+    </div>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+} 

@@ -1,0 +1,195 @@
+/* Authentication Styles */
+.auth-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: calc(100vh - 450px); /* Increased to avoid footer overlap */
+    padding: 4rem 1rem;
+    background: linear-gradient(135deg, #f8f9fa, #e9ecef);
+    margin-bottom: 2rem;
+}
+
+.auth-card {
+    background: white;
+    border-radius: 20px;
+    box-shadow: 0 15px 35px rgba(50, 50, 93, 0.1), 0 5px 15px rgba(0, 0, 0, 0.07);
+    padding: 3rem;
+    width: 100%;
+    max-width: 550px;
+    position: relative;
+    overflow: hidden;
+    z-index: 1;
+}
+
+.auth-card::before {
+    content: '';
+    position: absolute;
+    top: -50px;
+    right: -50px;
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+    background: rgba(67, 97, 238, 0.05);
+    z-index: -1;
+}
+
+.auth-card::after {
+    content: '';
+    position: absolute;
+    bottom: -50px;
+    left: -50px;
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+    background: rgba(67, 97, 238, 0.05);
+    z-index: -1;
+}
+
+.auth-header {
+    margin-bottom: 2.5rem;
+    position: relative;
+}
+
+.auth-header::after {
+    content: '';
+    position: absolute;
+    bottom: -10px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 80px;
+    height: 4px;
+    background: linear-gradient(135deg, #4361ee, #4895ef);
+    border-radius: 2px;
+}
+
+.auth-header h2 {
+    color: #4361ee;
+    font-weight: 700;
+    letter-spacing: -0.5px;
+}
+
+.form-floating > label {
+    color: #6c757d;
+}
+
+.form-control {
+    border-radius: 10px;
+    border: 1.5px solid #e9ecef;
+    padding: 12px 15px;
+    transition: all 0.3s;
+}
+
+.form-control:focus {
+    border-color: #4361ee;
+    box-shadow: 0 0 0 0.25rem rgba(67, 97, 238, 0.15);
+}
+
+.btn-primary {
+    background: linear-gradient(135deg, #4361ee, #4895ef);
+    border: none;
+    border-radius: 12px;
+    padding: 12px 25px;
+    font-weight: 600;
+    letter-spacing: 0.5px;
+    transition: all 0.3s;
+}
+
+.btn-primary:hover {
+    background: linear-gradient(135deg, #3a54d6, #3d7ed6);
+    transform: translateY(-3px);
+    box-shadow: 0 7px 15px rgba(67, 97, 238, 0.3);
+}
+
+.alert-danger {
+    background-color: #fff5f7;
+    color: #d63384;
+    border-color: #ffcce0;
+    border-radius: 10px;
+    padding: 15px;
+}
+
+/* Password strength meter */
+.password-strength-meter {
+    height: 6px;
+    background-color: #eee;
+    margin-top: 0.5rem;
+    border-radius: 3px;
+    overflow: hidden;
+}
+
+.password-strength-meter-fill {
+    height: 100%;
+    border-radius: 3px;
+    transition: width 0.3s ease-in-out;
+}
+
+.password-strength-weak {
+    width: 25%;
+    background-color: #dc3545;
+}
+
+.password-strength-medium {
+    width: 50%;
+    background-color: #fd7e14;
+}
+
+.password-strength-good {
+    width: 75%;
+    background-color: #20c997;
+}
+
+.password-strength-strong {
+    width: 100%;
+    background-color: #198754;
+}
+
+/* Animation */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(30px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.auth-card {
+    animation: fadeIn 0.6s ease-out;
+}
+
+/* Link styling */
+.auth-card a {
+    color: #4361ee;
+    text-decoration: none;
+    font-weight: 600;
+    transition: all 0.3s;
+}
+
+.auth-card a:hover {
+    color: #3a54d6;
+    text-decoration: underline;
+}
+
+/* Checkbox styling */
+.form-check-input {
+    border-color: #4361ee;
+}
+
+.form-check-input:checked {
+    background-color: #4361ee;
+    border-color: #4361ee;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .auth-container {
+        padding: 2rem 1rem;
+    }
+    
+    .auth-card {
+        padding: 2rem;
+        border-radius: 15px;
+    }
+} 

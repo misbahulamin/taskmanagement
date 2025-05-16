@@ -1,0 +1,100 @@
+﻿@page
+@model IndexModel
+@{
+    ViewData["Title"] = "Home page";
+}
+
+<div class="home-container">
+    <!-- Hero Section -->
+    <section class="hero-section">
+        <div class="hero-content">
+            <h1 class="hero-title animate-fade-in">Manage Tasks Effortlessly</h1>
+            <p class="hero-subtitle animate-slide-up">Streamline your workflow, boost productivity, and achieve more</p>
+            <div class="hero-buttons animate-fade-in">
+                <a href="#" class="btn-primary">Get Started</a>
+                <a href="#" class="btn-secondary">Learn More</a>
+            </div>
+        </div>
+        <div class="hero-image animate-slide-up">
+            <div class="floating-task task-1">
+                <div class="task-icon"><i class="bi bi-check-circle-fill"></i></div>
+                <div class="task-content">Project Planning</div>
+            </div>
+            <div class="floating-task task-2">
+                <div class="task-icon"><i class="bi bi-calendar-check"></i></div>
+                <div class="task-content">Weekly Progress</div>
+            </div>
+            <div class="floating-task task-3">
+                <div class="task-icon"><i class="bi bi-graph-up"></i></div>
+                <div class="task-content">Performance Track</div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Features Section -->
+    <section class="features-section">
+        <h2 class="section-title">Why Choose Our Task Management</h2>
+        <div class="features-grid">
+            <div class="feature-card animate-on-scroll">
+                <div class="feature-icon">
+                    <i class="bi bi-lightning-charge-fill"></i>
+                </div>
+                <h3>Boost Productivity</h3>
+                <p>Organize tasks efficiently and focus on what matters most to increase your daily output.</p>
+            </div>
+            <div class="feature-card animate-on-scroll">
+                <div class="feature-icon">
+                    <i class="bi bi-people-fill"></i>
+                </div>
+                <h3>Team Collaboration</h3>
+                <p>Work together seamlessly with real-time updates and shared task boards.</p>
+            </div>
+            <div class="feature-card animate-on-scroll">
+                <div class="feature-icon">
+                    <i class="bi bi-graph-up"></i>
+                </div>
+                <h3>Progress Tracking</h3>
+                <p>Monitor your advancement with intuitive charts and visual progress indicators.</p>
+            </div>
+            <div class="feature-card animate-on-scroll">
+                <div class="feature-icon">
+                    <i class="bi bi-clock-history"></i>
+                </div>
+                <h3>Time Management</h3>
+                <p>Set deadlines, reminders, and allocate time efficiently for better results.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Call to Action -->
+    <section class="cta-section">
+        <div class="cta-content">
+            <h2>Ready to Transform Your Workflow?</h2>
+            <p>Join thousands of professionals who have revolutionized their productivity.</p>
+            <a href="#" class="btn-cta">Start Now — It's Free</a>
+        </div>
+    </section>
+</div>
+
+@section Scripts {
+    <script>
+        // Animation for elements when they come into view
+        document.addEventListener('DOMContentLoaded', function() {
+            const observerOptions = {
+                threshold: 0.1
+            };
+            
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('visible');
+                    }
+                });
+            }, observerOptions);
+            
+            document.querySelectorAll('.animate-on-scroll').forEach(element => {
+                observer.observe(element);
+            });
+        });
+    </script>
+}
