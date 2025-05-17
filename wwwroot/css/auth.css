@@ -3,10 +3,10 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    min-height: calc(100vh - 450px); /* Increased to avoid footer overlap */
     padding: 4rem 1rem;
     background: linear-gradient(135deg, #f8f9fa, #e9ecef);
     margin-bottom: 2rem;
+    flex: 1;
 }
 
 .auth-card {

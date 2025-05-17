@@ -12,6 +12,8 @@ namespace TaskManagement.Data
 
         public DbSet<User> Users { get; set; }
         public DbSet<UserTask> Tasks { get; set; }
+        public DbSet<RecurrencePattern> RecurrencePatterns { get; set; }
+        public DbSet<TaskCollaborator> TaskCollaborators { get; set; }
         
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -31,6 +33,33 @@ namespace TaskManagement.Data
                 .HasOne(t => t.User)
                 .WithMany()
                 .HasForeignKey(t => t.UserId)
+                .OnDelete(DeleteBehavior.Cascade);
+                
+            // Configure RecurrencePattern entity
+            modelBuilder.Entity<RecurrencePattern>()
+                .HasOne(r => r.Task)
+                .WithOne(t => t.RecurrencePattern)
+                .HasForeignKey<RecurrencePattern>(r => r.TaskId)
+                .OnDelete(DeleteBehavior.Cascade);
+                
+            // Configure recurring task instances relationship
+            modelBuilder.Entity<UserTask>()
+                .HasOne(t => t.ParentTask)
+                .WithMany(t => t.RecurrenceInstances)
+                .HasForeignKey(t => t.ParentTaskId)
+                .OnDelete(DeleteBehavior.Restrict);
+                
+            // Configure TaskCollaborator entity
+            modelBuilder.Entity<TaskCollaborator>()
+                .HasOne(tc => tc.Task)
+                .WithMany(t => t.Collaborators)
+                .HasForeignKey(tc => tc.TaskId)
+                .OnDelete(DeleteBehavior.Cascade);
+                
+            modelBuilder.Entity<TaskCollaborator>()
+                .HasOne(tc => tc.User)
+                .WithMany()
+                .HasForeignKey(tc => tc.UserId)
                 .OnDelete(DeleteBehavior.Cascade);
         }
     }

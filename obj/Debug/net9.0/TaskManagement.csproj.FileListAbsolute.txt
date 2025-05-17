@@ -17,7 +17,6 @@ G:\Study\Nantong University Course Materials\8th Semster\TaskManagement\obj\Debu
 G:\Study\Nantong University Course Materials\8th Semster\TaskManagement\obj\Debug\net9.0\scopedcss\Pages\Shared\_Layout.cshtml.rz.scp.css
 G:\Study\Nantong University Course Materials\8th Semster\TaskManagement\obj\Debug\net9.0\scopedcss\bundle\TaskManagement.styles.css
 G:\Study\Nantong University Course Materials\8th Semster\TaskManagement\obj\Debug\net9.0\scopedcss\projectbundle\TaskManagement.bundle.scp.css
-G:\Study\Nantong University Course Materials\8th Semster\TaskManagement\obj\Debug\net9.0\compressed\2bzm0c42eo-b9sayid5wm.gz
 G:\Study\Nantong University Course Materials\8th Semster\TaskManagement\obj\Debug\net9.0\compressed\u7qzyz5pxd-61n19gt1b8.gz
 G:\Study\Nantong University Course Materials\8th Semster\TaskManagement\obj\Debug\net9.0\compressed\kvzc29p3by-xtxxf3hu2r.gz
 G:\Study\Nantong University Course Materials\8th Semster\TaskManagement\obj\Debug\net9.0\compressed\kxxokk5lif-bqjiyaj88i.gz
@@ -207,7 +206,6 @@ G:\Study\Nantong University Course Materials\8th Semster\TaskManagement\bin\Debu
 G:\Study\Nantong University Course Materials\8th Semster\TaskManagement\bin\Debug\net9.0\runtimes\win\lib\net6.0\System.Windows.Extensions.dll
 G:\Study\Nantong University Course Materials\8th Semster\TaskManagement\obj\Debug\net9.0\TaskManagement.csproj.AssemblyReference.cache
 G:\Study\Nantong University Course Materials\8th Semster\TaskManagement\obj\Debug\net9.0\TaskMana.75ABC965.Up2Date
-G:\Study\Nantong University Course Materials\8th Semster\TaskManagement\obj\Debug\net9.0\compressed\039y9nl18e-fmu67rhmst.gz
 G:\Study\Nantong University Course Materials\8th Semster\TaskManagement\bin\Debug\net9.0\Microsoft.Build.Locator.dll
 G:\Study\Nantong University Course Materials\8th Semster\TaskManagement\bin\Debug\net9.0\Microsoft.CodeAnalysis.Workspaces.MSBuild.BuildHost.dll
 G:\Study\Nantong University Course Materials\8th Semster\TaskManagement\bin\Debug\net9.0\Microsoft.CodeAnalysis.Workspaces.MSBuild.dll
@@ -250,3 +248,6 @@ G:\Study\Nantong University Course Materials\8th Semster\TaskManagement\bin\Debu
 G:\Study\Nantong University Course Materials\8th Semster\TaskManagement\bin\Debug\net9.0\runtimes\win-arm64\native\e_sqlite3.dll
 G:\Study\Nantong University Course Materials\8th Semster\TaskManagement\bin\Debug\net9.0\runtimes\win-x64\native\e_sqlite3.dll
 G:\Study\Nantong University Course Materials\8th Semster\TaskManagement\bin\Debug\net9.0\runtimes\win-x86\native\e_sqlite3.dll
+G:\Study\Nantong University Course Materials\8th Semster\TaskManagement\obj\Debug\net9.0\compressed\039y9nl18e-20wz7o3g4i.gz
+G:\Study\Nantong University Course Materials\8th Semster\TaskManagement\obj\Debug\net9.0\compressed\2bzm0c42eo-rgqql7y1ky.gz
+G:\Study\Nantong University Course Materials\8th Semster\TaskManagement\obj\Debug\net9.0\compressed\ozidhf5ezo-7f51o3ulfx.gz

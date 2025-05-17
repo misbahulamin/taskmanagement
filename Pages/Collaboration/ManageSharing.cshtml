@@ -1,0 +1,216 @@
+@page
+@model TaskManagement.Pages.Collaboration.ManageSharingModel
+@using TaskManagement.Models
+@{
+    ViewData["Title"] = "Manage Task Sharing";
+}
+
+<div class="container mt-4">
+    <nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a asp-page="/Tasks/Index">Tasks</a></li>
+            <li class="breadcrumb-item"><a asp-page="/Tasks/Details" asp-route-id="@Model.TaskId">Task Details</a></li>
+            <li class="breadcrumb-item active" aria-current="page">Manage Sharing</li>
+        </ol>
+    </nav>
+    
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h1>Manage Task Sharing</h1>
+    </div>
+    
+    @if (!string.IsNullOrEmpty(Model.StatusMessage))
+    {
+        var statusType = Model.StatusMessage.StartsWith("Error:") ? "danger" : "success";
+        <div class="alert alert-@statusType alert-dismissible fade show" role="alert">
+            @Model.StatusMessage
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+    }
+    
+    <div class="card mb-4">
+        <div class="card-body">
+            <h5 class="card-title">Task Information</h5>
+            <div class="row">
+                <div class="col-md-8">
+                    <h6 class="fw-bold">@Model.Task?.Title</h6>
+                    @if (!string.IsNullOrEmpty(Model.Task?.Description))
+                    {
+                        <p class="text-muted">@Model.Task?.Description</p>
+                    }
+                </div>
+                <div class="col-md-4">
+                    <ul class="list-group list-group-flush">
+                        <li class="list-group-item d-flex justify-content-between px-0">
+                            <span>Priority:</span>
+                            <span>
+                                @{
+                                    var priorityBadgeClass = Model.Task?.Priority switch
+                                    {
+                                        Priority.Low => "bg-success",
+                                        Priority.Medium => "bg-info",
+                                        Priority.High => "bg-warning text-dark",
+                                        Priority.Urgent => "bg-danger",
+                                        _ => "bg-secondary"
+                                    };
+                                }
+                                <span class="badge @priorityBadgeClass">@Model.Task?.Priority</span>
+                            </span>
+                        </li>
+                        <li class="list-group-item d-flex justify-content-between px-0">
+                            <span>Due Date:</span>
+                            <span>@(Model.Task?.DueDate?.ToString("MMM d, yyyy") ?? "None")</span>
+                        </li>
+                        <li class="list-group-item d-flex justify-content-between px-0">
+                            <span>Status:</span>
+                            <span>
+                                @if (Model.Task?.IsCompleted == true)
+                                {
+                                    <span class="badge bg-success">Completed</span>
+                                }
+                                else
+                                {
+                                    <span class="badge bg-primary">Active</span>
+                                }
+                            </span>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="row">
+        <div class="col-md-6">
+            <div class="card mb-4">
+                <div class="card-header">
+                    <h5 class="card-title mb-0">Current Collaborators</h5>
+                </div>
+                <div class="card-body">
+                    @if (Model.Collaborators.Count == 0)
+                    {
+                        <p class="text-muted">This task is not shared with anyone yet.</p>
+                    }
+                    else
+                    {
+                        <div class="table-responsive">
+                            <table class="table table-striped">
+                                <thead>
+                                    <tr>
+                                        <th>User</th>
+                                        <th>Role</th>
+                                        <th>Added</th>
+                                        <th>Actions</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach (var collaborator in Model.Collaborators)
+                                    {
+                                        <tr>
+                                            <td>
+                                                <div class="d-flex align-items-center">
+                                                    <div class="avatar avatar-sm bg-primary rounded-circle me-2">
+                                                        <span class="avatar-text">@(collaborator.User?.Username.Substring(0, 1).ToUpper())</span>
+                                                    </div>
+                                                    <div>
+                                                        <div class="fw-semibold">@collaborator.User?.Username</div>
+                                                        <div class="small text-muted">@collaborator.User?.Email</div>
+                                                    </div>
+                                                </div>
+                                            </td>
+                                            <td>
+                                                @{
+                                                    var roleBadgeClass = collaborator.Role switch
+                                                    {
+                                                        CollaboratorRole.Viewer => "bg-info",
+                                                        CollaboratorRole.Editor => "bg-warning",
+                                                        CollaboratorRole.Admin => "bg-danger",
+                                                        _ => "bg-secondary"
+                                                    };
+                                                }
+                                                <span class="badge @roleBadgeClass">@collaborator.Role</span>
+                                                @if (collaborator.CanEdit)
+                                                {
+                                                    <span class="badge bg-success ms-1">Can Edit</span>
+                                                }
+                                            </td>
+                                            <td>
+                                                <small class="text-muted">@collaborator.AddedAt.ToString("MMM d, yyyy")</small>
+                                            </td>
+                                            <td>
+                                                <form method="post" asp-page-handler="RemoveCollaborator" class="d-inline">
+                                                    <input type="hidden" name="collaboratorId" value="@collaborator.UserId" />
+                                                    <input type="hidden" name="taskId" value="@Model.TaskId" />
+                                                    <button type="submit" class="btn btn-sm btn-outline-danger" onclick="return confirm('Are you sure you want to remove this collaborator?')">
+                                                        <i class="bi bi-trash"></i>
+                                                    </button>
+                                                </form>
+                                            </td>
+                                        </tr>
+                                    }
+                                </tbody>
+                            </table>
+                        </div>
+                    }
+                </div>
+            </div>
+        </div>
+        
+        <div class="col-md-6">
+            <div class="card">
+                <div class="card-header">
+                    <h5 class="card-title mb-0">Share With Someone</h5>
+                </div>
+                <div class="card-body">
+                    <form method="post" asp-page-handler="AddCollaborator">
+                        <input type="hidden" asp-for="TaskId" />
+                        
+                        <div class="mb-3">
+                            <label asp-for="CollaboratorEmail" class="form-label">Email or Username</label>
+                            <input type="text" class="form-control" asp-for="CollaboratorEmail" placeholder="Enter email or username" required />
+                            <div class="form-text">Enter the email or username of the person you want to share with.</div>
+                        </div>
+                        
+                        <div class="mb-3">
+                            <label asp-for="Role" class="form-label">Role</label>
+                            <select class="form-select" asp-for="Role" asp-items="Model.RoleOptions">
+                            </select>
+                            <div class="form-text">
+                                <strong>Viewer:</strong> Can only view task details<br />
+                                <strong>Editor:</strong> Can view and edit task details<br />
+                                <strong>Admin:</strong> Can view, edit, and manage task sharing
+                            </div>
+                        </div>
+                        
+                        <div class="mb-3 form-check">
+                            <input type="checkbox" class="form-check-input" asp-for="CanEdit" id="canEdit" />
+                            <label class="form-check-label" for="canEdit">Allow editing task details</label>
+                        </div>
+                        
+                        <div class="d-grid">
+                            <button type="submit" class="btn btn-primary">
+                                <i class="bi bi-share"></i> Share Task
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Styles {
+    <style>
+        .avatar {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 30px;
+            height: 30px;
+        }
+        
+        .avatar-text {
+            color: #fff;
+            font-weight: bold;
+        }
+    </style>
+} 

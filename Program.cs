@@ -26,6 +26,12 @@ builder.Services.AddDbContext<ApplicationDbContext>(options =>
 // Register services
 builder.Services.AddScoped<IAuthService, AuthService>();
 builder.Services.AddScoped<ITaskService, TaskService>();
+builder.Services.AddScoped<ITaskAnalyticsService, TaskAnalyticsService>();
+builder.Services.AddScoped<IRecurringTaskService, RecurringTaskService>();
+builder.Services.AddScoped<ICollaborationService, CollaborationService>();
+
+// Setup a background service to handle recurring tasks
+builder.Services.AddHostedService<RecurringTaskBackgroundService>();
 
 var app = builder.Build();
 
@@ -65,3 +71,6 @@ app.UseAuthorization();
 app.MapRazorPages();
 
 app.Run();
+
+
+// Stop-Process -Name TaskManagement -Force

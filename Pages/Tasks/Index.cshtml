@@ -1,0 +1,184 @@
+@page
+@model TaskManagement.Pages.Tasks.IndexModel
+@using TaskManagement.Models
+@{
+    ViewData["Title"] = "My Tasks";
+}
+
+<div class="tasks-container">
+    <div class="tasks-header">
+        <h1 class="tasks-title">
+            My Tasks
+            <span class="task-count">@Model.Tasks.Count</span>
+        </h1>
+        <div class="tasks-actions">
+            <a asp-page="./Create" class="btn btn-primary">
+                <i class="bi bi-plus-lg me-1"></i> New Task
+            </a>
+        </div>
+    </div>
+
+    <div class="filter-section">
+        <form method="get">
+            <div class="filter-controls">
+                <div class="filter-group">
+                    <div class="input-group">
+                        <span class="input-group-text"><i class="bi bi-search"></i></span>
+                        <input type="text" asp-for="Filter.SearchTerm" class="form-control" placeholder="Search tasks...">
+                    </div>
+                </div>
+                
+                <div class="filter-group">
+                    <select asp-for="Filter.Priority" asp-items="Model.Filter.Priorities" class="form-select">
+                    </select>
+                </div>
+                
+                <div class="filter-group">
+                    <select asp-for="Filter.Category" asp-items="Model.Filter.Categories" class="form-select">
+                    </select>
+                </div>
+                
+                <div class="filter-group">
+                    <select asp-for="Filter.IsCompleted" asp-items="Model.Filter.CompletionStatuses" class="form-select">
+                    </select>
+                </div>
+                
+                <div>
+                    <button type="submit" class="btn btn-outline-primary">Filter</button>
+                    <a asp-page="./Index" class="btn btn-outline-secondary">Reset</a>
+                </div>
+            </div>
+        </form>
+    </div>
+
+    @if (!Model.Tasks.Any())
+    {
+        <div class="empty-state">
+            <i class="bi bi-clipboard"></i>
+            <h3>No tasks found</h3>
+            <p>You don't have any tasks yet, or none match your current filters. Create a new task to get started.</p>
+            <a asp-page="./Create" class="btn btn-primary">
+                <i class="bi bi-plus-lg me-1"></i> New Task
+            </a>
+        </div>
+    }
+    else
+    {
+        <div class="tasks-list">
+            @foreach (var task in Model.Tasks)
+            {
+                string priorityClass = task.Priority switch
+                {
+                    Priority.Low => "low-priority",
+                    Priority.Medium => "medium-priority",
+                    Priority.High => "high-priority",
+                    Priority.Urgent => "urgent-priority",
+                    _ => "medium-priority"
+                };
+                
+                <div class="task-card @(task.IsCompleted ? "completed" : "") @priorityClass">
+                    <div class="task-header">
+                        <h3 class="task-title">@task.Title</h3>
+                        <div class="task-actions">
+                            @if (!task.IsCompleted)
+                            {
+                                <form method="post" asp-page-handler="Complete" asp-route-id="@task.Id" class="d-inline">
+                                    <button type="submit" title="Mark as complete">
+                                        <i class="bi bi-check-circle"></i>
+                                    </button>
+                                </form>
+                            }
+                            else
+                            {
+                                <form method="post" asp-page-handler="Uncomplete" asp-route-id="@task.Id" class="d-inline">
+                                    <button type="submit" title="Mark as incomplete">
+                                        <i class="bi bi-arrow-counterclockwise"></i>
+                                    </button>
+                                </form>
+                            }
+                            <a asp-page="./Edit" asp-route-id="@task.Id" title="Edit task">
+                                <i class="bi bi-pencil"></i>
+                            </a>
+                            <form method="post" asp-page-handler="Delete" asp-route-id="@task.Id" class="d-inline" 
+                                onsubmit="return confirm('Are you sure you want to delete this task?');">
+                                <button type="submit" title="Delete task">
+                                    <i class="bi bi-trash"></i>
+                                </button>
+                            </form>
+                        </div>
+                    </div>
+                    
+                    <div class="task-content">
+                        @if (!string.IsNullOrEmpty(task.Description))
+                        {
+                            <p class="task-description">@task.Description</p>
+                        }
+                        
+                        <div class="task-meta">
+                            <div class="task-meta-item">
+                                <i class="bi bi-calendar3"></i>
+                                <span>Created: @task.CreatedAt.ToString("MMM d, yyyy")</span>
+                            </div>
+                            
+                            @if (task.DueDate.HasValue)
+                            {
+                                <div class="task-meta-item">
+                                    <i class="bi bi-calendar-check"></i>
+                                    <span>Due: @task.DueDate.Value.ToString("MMM d, yyyy")</span>
+                                </div>
+                            }
+                            
+                            <div class="task-priority @task.Priority.ToString().ToLower()">
+                                @task.Priority
+                            </div>
+                        </div>
+                        
+                        @if (!string.IsNullOrEmpty(task.Tags))
+                        {
+                            <div class="task-tags">
+                                @foreach (var tag in task.Tags.Split(',', StringSplitOptions.RemoveEmptyEntries))
+                                {
+                                    <span class="task-tag">@tag.Trim()</span>
+                                }
+                            </div>
+                        }
+                    </div>
+                    
+                    <div class="task-footer">
+                        @if (!string.IsNullOrEmpty(task.Category))
+                        {
+                            <span class="task-category">@task.Category</span>
+                        }
+                        
+                        <span class="task-date">
+                            @if (task.IsCompleted && task.CompletedAt.HasValue)
+                            {
+                                <span>Completed: @task.CompletedAt.Value.ToString("MMM d, yyyy")</span>
+                            }
+                        </span>
+                    </div>
+                </div>
+            }
+        </div>
+    }
+</div>
+
+@section Scripts {
+    <script>
+        // Add animation to task cards
+        document.addEventListener('DOMContentLoaded', function() {
+            const cards = document.querySelectorAll('.task-card');
+            
+            cards.forEach((card, index) => {
+                card.style.opacity = '0';
+                card.style.transform = 'translateY(20px)';
+                
+                setTimeout(() => {
+                    card.style.transition = 'opacity 0.4s ease, transform 0.4s ease';
+                    card.style.opacity = '1';
+                    card.style.transform = 'translateY(0)';
+                }, 100 + (index * 50));
+            });
+        });
+    </script>
+} 

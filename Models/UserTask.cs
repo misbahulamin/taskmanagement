@@ -34,6 +34,27 @@ namespace TaskManagement.Models
         public string? Category { get; set; }
 
         public string? Tags { get; set; } // Comma-separated tags
+
+        // Recurrence properties
+        public bool IsRecurring { get; set; } = false;
+
+        // Navigation property to recurrence pattern
+        public RecurrencePattern? RecurrencePattern { get; set; }
+
+        // Parent task for recurrence instances
+        public int? ParentTaskId { get; set; }
+
+        [ForeignKey("ParentTaskId")]
+        public UserTask? ParentTask { get; set; }
+
+        // Child tasks for recurrence instances
+        public List<UserTask>? RecurrenceInstances { get; set; }
+
+        // Collaboration properties
+        public bool IsShared { get; set; } = false;
+        
+        // Navigation property for collaborators
+        public List<TaskCollaborator>? Collaborators { get; set; }
     }
 
     public enum Priority

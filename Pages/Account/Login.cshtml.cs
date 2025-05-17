@@ -22,18 +22,20 @@ namespace TaskManagement.Pages.Account
             _logger = logger;
         }
 
-        public void OnGet()
+        public IActionResult OnGet()
         {
             // If user is already logged in, redirect to home page
-            if (HttpContext.Session.GetString("CurrentUser") != null)
+            if (UserSessionHelper.IsAuthenticated(HttpContext))
             {
-                Response.Redirect("/");
+                return RedirectToPage("/Tasks/Index");
             }
+            
+            return Page();
         }
 
         public async Task<IActionResult> OnPostAsync(string? returnUrl = null)
         {
-            returnUrl ??= Url.Content("~/");
+            returnUrl ??= Url.Content("~/Tasks/Index");
 
             if (ModelState.IsValid)
             {
@@ -46,18 +48,8 @@ namespace TaskManagement.Pages.Account
                     _logger.LogInformation("User {Email} logged in at {Time}",
                         user.Email, DateTime.UtcNow);
 
-                    // Store user info in session
-                    var sessionUser = new
-                    {
-                        user.Id,
-                        user.Username,
-                        user.Email,
-                        user.FirstName,
-                        user.LastName
-                    };
-
-                    HttpContext.Session.SetString("CurrentUser", 
-                        JsonSerializer.Serialize(sessionUser));
+                    // Store user info in session using our helper
+                    UserSessionHelper.SetUserSession(HttpContext, user);
 
                     return LocalRedirect(returnUrl);
                 }

@@ -1,0 +1,232 @@
+@page
+@model TaskManagement.Pages.Tasks.DetailsModel
+@using TaskManagement.Models
+@{
+    ViewData["Title"] = "Task Details";
+}
+
+<div class="container mt-4">
+    <div class="row">
+        <div class="col-md-8 offset-md-2">
+            @if (!string.IsNullOrEmpty(Model.StatusMessage))
+            {
+                var statusType = Model.StatusMessage.StartsWith("Error:") ? "danger" : "success";
+                <div class="alert alert-@statusType alert-dismissible fade show mb-4" role="alert">
+                    @Model.StatusMessage
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                </div>
+            }
+            
+            <div class="card shadow mb-4">
+                <div class="card-header bg-primary text-white d-flex justify-content-between align-items-center">
+                    <h2 class="card-title mb-0">Task Details</h2>
+                    <div>
+                        @if (Model.Task?.UserId == Model.UserId)
+                        {
+                            <a asp-page="/Collaboration/ManageSharing" asp-route-id="@Model.Task?.Id" class="btn btn-light btn-sm">
+                                <i class="bi bi-share"></i> Share Task
+                            </a>
+                        }
+                    </div>
+                </div>
+                <div class="card-body">
+                    @if (Model.Task == null)
+                    {
+                        <div class="alert alert-warning">
+                            Task not found.
+                        </div>
+                    }
+                    else
+                    {
+                        <div class="task-detail-header mb-4">
+                            <h3 class="task-title mb-3">@Model.Task.Title</h3>
+                            
+                            <div class="task-status-badges mb-3">
+                                @{
+                                    var priorityBadgeClass = Model.Task.Priority switch
+                                    {
+                                        Priority.Low => "bg-success",
+                                        Priority.Medium => "bg-info",
+                                        Priority.High => "bg-warning text-dark",
+                                        Priority.Urgent => "bg-danger",
+                                        _ => "bg-secondary"
+                                    };
+                                }
+                                
+                                <span class="badge @priorityBadgeClass me-2">@Model.Task.Priority</span>
+                                
+                                @if (Model.Task.IsCompleted)
+                                {
+                                    <span class="badge bg-success">Completed</span>
+                                }
+                                else
+                                {
+                                    <span class="badge bg-primary">Active</span>
+                                }
+                                
+                                @if (Model.Task.IsShared)
+                                {
+                                    <span class="badge bg-info ms-2">
+                                        <i class="bi bi-people-fill"></i> Shared
+                                    </span>
+                                }
+                                
+                                @if (Model.Task.IsRecurring)
+                                {
+                                    <span class="badge bg-secondary ms-2">
+                                        <i class="bi bi-arrow-repeat"></i> Recurring
+                                    </span>
+                                }
+                            </div>
+                            
+                            @if (Model.Task.UserId != Model.UserId)
+                            {
+                                <div class="alert alert-info">
+                                    <i class="bi bi-info-circle me-2"></i>
+                                    This task is shared with you by <strong>@Model.Task.User?.Username</strong>
+                                </div>
+                            }
+                            
+                            @if (Model.CanEdit)
+                            {
+                                <div class="task-actions mb-4">
+                                    <div class="btn-group" role="group">
+                                        @if (!Model.Task.IsCompleted)
+                                        {
+                                            <form method="post" asp-page-handler="Complete" asp-route-id="@Model.Task.Id" class="d-inline">
+                                                <button type="submit" class="btn btn-success">
+                                                    <i class="bi bi-check-circle me-1"></i> Mark Complete
+                                                </button>
+                                            </form>
+                                        }
+                                        else
+                                        {
+                                            <form method="post" asp-page-handler="Uncomplete" asp-route-id="@Model.Task.Id" class="d-inline">
+                                                <button type="submit" class="btn btn-warning">
+                                                    <i class="bi bi-arrow-counterclockwise me-1"></i> Mark Incomplete
+                                                </button>
+                                            </form>
+                                        }
+                                        
+                                        @if (Model.Task.UserId == Model.UserId)
+                                        {
+                                            <a asp-page="./Edit" asp-route-id="@Model.Task.Id" class="btn btn-primary ms-2">
+                                                <i class="bi bi-pencil me-1"></i> Edit
+                                            </a>
+                                        }
+                                    </div>
+                                </div>
+                            }
+                        </div>
+                        
+                        <div class="row mb-4">
+                            <div class="col-md-8">
+                                <div class="mb-4">
+                                    <h5>Description</h5>
+                                    @if (string.IsNullOrEmpty(Model.Task.Description))
+                                    {
+                                        <p class="text-muted">No description provided.</p>
+                                    }
+                                    else
+                                    {
+                                        <p>@Model.Task.Description</p>
+                                    }
+                                </div>
+                                
+                                @if (!string.IsNullOrEmpty(Model.Task.Tags))
+                                {
+                                    <div class="mb-4">
+                                        <h5>Tags</h5>
+                                        <div class="task-tags">
+                                            @foreach (var tag in Model.Task.Tags.Split(',', StringSplitOptions.RemoveEmptyEntries))
+                                            {
+                                                <span class="badge bg-secondary me-1">@tag.Trim()</span>
+                                            }
+                                        </div>
+                                    </div>
+                                }
+                            </div>
+                            
+                            <div class="col-md-4">
+                                <div class="card bg-light">
+                                    <div class="card-body">
+                                        <h5 class="card-title">Task Details</h5>
+                                        <ul class="list-group list-group-flush mb-0">
+                                            <li class="list-group-item d-flex justify-content-between bg-transparent px-0">
+                                                <span>Created</span>
+                                                <span>@Model.Task.CreatedAt.ToString("MMM d, yyyy")</span>
+                                            </li>
+                                            
+                                            @if (Model.Task.DueDate.HasValue)
+                                            {
+                                                <li class="list-group-item d-flex justify-content-between bg-transparent px-0">
+                                                    <span>Due Date</span>
+                                                    <span>@Model.Task.DueDate.Value.ToString("MMM d, yyyy")</span>
+                                                </li>
+                                            }
+                                            
+                                            @if (Model.Task.IsCompleted && Model.Task.CompletedAt.HasValue)
+                                            {
+                                                <li class="list-group-item d-flex justify-content-between bg-transparent px-0">
+                                                    <span>Completed</span>
+                                                    <span>@Model.Task.CompletedAt.Value.ToString("MMM d, yyyy")</span>
+                                                </li>
+                                            }
+                                            
+                                            @if (!string.IsNullOrEmpty(Model.Task.Category))
+                                            {
+                                                <li class="list-group-item d-flex justify-content-between bg-transparent px-0">
+                                                    <span>Category</span>
+                                                    <span>@Model.Task.Category</span>
+                                                </li>
+                                            }
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        @if (Model.Task.UserId == Model.UserId && Model.Collaborators.Any())
+                        {
+                            <div class="collaborators-section mb-4">
+                                <h5>Collaborators</h5>
+                                <div class="table-responsive">
+                                    <table class="table table-sm">
+                                        <thead>
+                                            <tr>
+                                                <th>User</th>
+                                                <th>Role</th>
+                                                <th>Added</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            @foreach (var collaborator in Model.Collaborators)
+                                            {
+                                                <tr>
+                                                    <td>@collaborator.User?.Username</td>
+                                                    <td>
+                                                        <span class="badge bg-info">@collaborator.Role</span>
+                                                    </td>
+                                                    <td>@collaborator.AddedAt.ToString("MMM d, yyyy")</td>
+                                                </tr>
+                                            }
+                                        </tbody>
+                                    </table>
+                                </div>
+                                
+                                <a asp-page="/Collaboration/ManageSharing" asp-route-id="@Model.Task.Id" class="btn btn-outline-primary btn-sm">
+                                    <i class="bi bi-people-fill me-1"></i> Manage Collaborators
+                                </a>
+                            </div>
+                        }
+                    }
+                </div>
+                <div class="card-footer">
+                    <a asp-page="/Tasks/Index" class="btn btn-secondary">
+                        <i class="bi bi-arrow-left me-1"></i> Back to List
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div> 

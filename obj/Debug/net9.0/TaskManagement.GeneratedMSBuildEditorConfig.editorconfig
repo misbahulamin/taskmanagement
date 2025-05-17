@@ -40,6 +40,14 @@ build_metadata.AdditionalFiles.CssScope =
 build_metadata.AdditionalFiles.TargetPath = UGFnZXNcQWNjb3VudFxSZWdpc3Rlci5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
+[G:/Study/Nantong University Course Materials/8th Semster/TaskManagement/Pages/Collaboration/ManageSharing.cshtml]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcQ29sbGFib3JhdGlvblxNYW5hZ2VTaGFyaW5nLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[G:/Study/Nantong University Course Materials/8th Semster/TaskManagement/Pages/Collaboration/SharedWithMe.cshtml]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcQ29sbGFib3JhdGlvblxTaGFyZWRXaXRoTWUuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
 [G:/Study/Nantong University Course Materials/8th Semster/TaskManagement/Pages/Error.cshtml]
 build_metadata.AdditionalFiles.TargetPath = UGFnZXNcRXJyb3IuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
@@ -54,6 +62,22 @@ build_metadata.AdditionalFiles.CssScope =
 
 [G:/Study/Nantong University Course Materials/8th Semster/TaskManagement/Pages/Shared/_ValidationScriptsPartial.cshtml]
 build_metadata.AdditionalFiles.TargetPath = UGFnZXNcU2hhcmVkXF9WYWxpZGF0aW9uU2NyaXB0c1BhcnRpYWwuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[G:/Study/Nantong University Course Materials/8th Semster/TaskManagement/Pages/Tasks/Create.cshtml]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcVGFza3NcQ3JlYXRlLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[G:/Study/Nantong University Course Materials/8th Semster/TaskManagement/Pages/Tasks/Dashboard.cshtml]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcVGFza3NcRGFzaGJvYXJkLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[G:/Study/Nantong University Course Materials/8th Semster/TaskManagement/Pages/Tasks/Details.cshtml]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcVGFza3NcRGV0YWlscy5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[G:/Study/Nantong University Course Materials/8th Semster/TaskManagement/Pages/Tasks/Index.cshtml]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcVGFza3NcSW5kZXguY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
 [G:/Study/Nantong University Course Materials/8th Semster/TaskManagement/Pages/_ViewImports.cshtml]
