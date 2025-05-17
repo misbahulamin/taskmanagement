@@ -1,0 +1,17 @@
+version: '3.8'
+
+services:
+  webapp:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "10000:10000"
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - ASPNETCORE_URLS=http://+:10000
+    volumes:
+      - sqlite-data:/app/Data
+
+volumes:
+  sqlite-data: 
